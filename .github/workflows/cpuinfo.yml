@@ -47,10 +47,6 @@ jobs:
           sysctl -n machdep.cpu.features
           sysctl -n machdep.cpu.extfeatures
       
-      - name: Print CPU Thermal and Performance Details
-        run: |
-          echo "Fetching CPU thermal management details..."
-          pmset -g thermlog
       
       - name: Print CPU Core Information
         run: |
