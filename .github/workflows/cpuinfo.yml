@@ -52,7 +52,9 @@ jobs:
           echo "Fetching CPU thermal management details..."
           pmset -g thermlog
       
-      - name: Print CPU Process and Load Information
+      - name: Print CPU Core Information
         run: |
-          echo "Fetching CPU load details..."
-          top -l 1 | head -n 20
+          echo "Fetching CPU core count..."
+          echo "Physical Cores: $(sysctl -n hw.physicalcpu)"
+          echo "Logical Cores: $(sysctl -n hw.logicalcpu)"
+
