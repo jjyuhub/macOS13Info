@@ -1,0 +1,58 @@
+name: Print CPU Details (macOS-13)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  cpu-details:
+    runs-on: macos-13
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      
+      - name: Print All Available System Information
+        run: |
+          echo "Fetching all system information..."
+          system_profiler -detailLevel full
+      
+      - name: Print CPU Details (sysctl -a)
+        run: |
+          echo "Fetching all sysctl details..."
+          sysctl -a
+      
+      - name: Print CPU Details (sysctl machdep)
+        run: |
+          echo "Fetching detailed machdep CPU information..."
+          sysctl -a | grep -E 'machdep.cpu'
+      
+      - name: Print CPU Details (sysctl hw)
+        run: |
+          echo "Fetching detailed hardware CPU information..."
+          sysctl -a | grep -E 'hw.cpu'
+      
+      - name: Print CPU Details (system_profiler hardware)
+        run: |
+          echo "Fetching detailed CPU information using system_profiler..."
+          system_profiler SPHardwareDataType
+      
+      - name: Print CPU Features and Extensions
+        run: |
+          echo "Fetching CPU feature flags..."
+          sysctl -n machdep.cpu.features
+          sysctl -n machdep.cpu.extfeatures
+      
+      - name: Print CPU Thermal and Performance Details
+        run: |
+          echo "Fetching CPU thermal management details..."
+          pmset -g thermlog
+      
+      - name: Print CPU Process and Load Information
+        run: |
+          echo "Fetching CPU load details..."
+          top -l 1 | head -n 20
